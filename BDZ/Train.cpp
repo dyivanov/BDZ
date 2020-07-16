@@ -1,125 +1,176 @@
 #include<iostream>
-using namespace std;
 #include "Train.h"
 
-void Train::Copy(const Train& t){
+void Train::Copy(const Train& t)
+{
     this->numberOfWagons = t.numberOfWagons;
     this->setCapacityOfWagons(t.numberOfWagons, t.capacityOfWagons);
-    this->speed = t.speed;
-    this->numberOfStations = t.numberOfStations;
-    this->currentStation = t.currentStation;
-    stations = new Station[numberOfStations];
-    for(int i=0; i < currentStation; ++i){
-        stations[i] = t.stations[i];
+    this->trainSpeed = t.trainSpeed;
+    this->numberOfTrainStation = t.numberOfTrainStation;
+    this->currentTrainStation = t.currentTrainStation;
+    trainStation = new Station[numberOfTrainStation];
+    
+    for(int i=0; i < currentTrainStation; ++i)
+    {
+        trainStation[i] = t.trainStation[i];
     }
 }
-void Train::Erase(){
+
+void Train::Erase()
+{
     delete[] capacityOfWagons;
-    delete[] stations;
+    delete[] trainStation;
 }
-void Train::Resize(){
-    Station* temp = stations;
-    numberOfStations *= 2;
-    stations = new Station[numberOfStations];
-    for(int i=0; i<currentStation; ++i){
-        stations[i]=temp[i];
+
+void Train::Resize()
+{
+    Station* temp = trainStation;
+    numberOfTrainStation *= 2;
+    
+    trainStation = new Station[numberOfTrainStation];
+    for(int i=0; i<currentTrainStation; ++i){
+        trainStation[i] = temp[i];
     }
+    
     delete[] temp;
 }
-void Train::Print(std::ostream &os)const{
-    os<<"Number of wagons: "<<numberOfWagons<<endl;
-    os<<"Capacity of each wagon is: ";
-    for(int i = 0; i < numberOfWagons - 1; ++i){
-        os<<capacityOfWagons[i]<<", ";
-    }
-    os<<capacityOfWagons[numberOfWagons - 1]<<endl;
-    os<<"Speed of the train: "<<speed<<endl;
-    if(currentStation > 0){
-       cout<<"Stops of the train: "<<endl;
-        for(int i = 0; i < currentStation; ++i){
-            cout<<i + 1<<": "<<stations[i].getNameOfStation()<<endl;
-        }
-    }
-}
-void Train::Read(std::istream &is){
-    cout<<"Please enter number of wagons: ";
-    is>>numberOfWagons;
-    is.ignore();
-    cout<<"   Please enter capacity of each wagon: "<<endl;
-    capacityOfWagons = new int[numberOfWagons];
-    for(int i=0; i < numberOfWagons; ++i){
-        cout<<i+1<<": ";
-        is>>capacityOfWagons[i];
-        is.ignore();
-    }
-    cout<<"Please enter the speed of train: ";
-    is>>speed;
-    is.ignore();
-}
-Train::Train():numberOfWagons(0), capacityOfWagons(nullptr), speed(0), currentStation(0), numberOfStations(1), stations(nullptr){}
-Train::Train(int numberOfWagons,const int* capacityOfWagons, int speed){
+
+Train::Train():numberOfWagons(0), capacityOfWagons(nullptr), trainSpeed(0), currentTrainStation(0), numberOfTrainStation(1), trainStation(nullptr){}
+
+Train::Train(int numberOfWagons,const int* capacityOfWagons, int trainSpeed)
+{
     this->numberOfWagons = numberOfWagons;
     this->setCapacityOfWagons(numberOfWagons, capacityOfWagons);
-    this->speed = speed;
-    numberOfStations = 1;
-    currentStation = 0;
-    stations = new Station[numberOfStations];
+    this->trainSpeed = trainSpeed;
+    numberOfTrainStation = 1;
+    currentTrainStation = 0;
+    trainStation = new Station[numberOfTrainStation];
 }
-Train::Train(const Train& t){
+
+Train::Train(const Train& t)
+{
     Copy(t);
 }
-Train &Train::operator=(const Train& t){
-    if(this != &t){
+
+Train &Train::operator=(const Train& t)
+{
+    if(this != &t)
+    {
         Erase();
         Copy(t);
     }
     return *this;
 }
-std::ostream &operator<<(std::ostream &os, const Train &t) {
-    t.Print(os);
+
+std::ostream &operator<<(std::ostream &os, const Train &t) 
+{
+    t.printTrainInformation(os);
     return os;
 }
-std::istream &operator>>(std::istream &is, Train &t) {
-    t.Read(is);
+
+std::istream &operator>>(std::istream &is, Train &t) 
+{
+    t.readTrainInformation(is);
     return is;
 }
 
-Train::~Train(){
+Train *Train::clone() const
+{
+    return new Train(*this);
+}
+
+Train::~Train()
+{
     Erase();
 }
 
-void Train::addStation(const Station& s){
-    if(currentStation == numberOfStations){
+void Train::Print(std::ostream &os)const
+{
+    os<<"Number of wagons: "<<numberOfWagons<<std::endl;
+    
+    os<<"Capacity of each wagon is: ";
+    for(int i = 0; i < numberOfWagons - 1; ++i)
+    {
+        os<<capacityOfWagons[i]<<", ";
+    }
+    os<<capacityOfWagons[numberOfWagons - 1]<< std::endl;
+    
+    os<<"Current speed of the train: "<<speed<<std::endl;
+    
+    if(currentTrainStation > 0)
+    {
+       std::cout<<"Stops of the train: \n";
+        for(int i = 0; i < currentStation; ++i)
+        {
+            std::cout<<i + 1<<": "<<trainStation[i].getNameOfStation()<<std::endl;
+        }
+    }
+}
+
+void Train::Read(std::istream &is)
+{
+    std::cout<<"Please enter number of wagons: ";
+    is>>numberOfWagons;
+    is.ignore();
+    
+    std::cout<<"   Please enter capacity of each wagon: \n";
+    capacityOfWagons = new int[numberOfWagons];
+    for(int i=0; i < numberOfWagons; ++i)
+    {
+        std::cout<<i+1<<": ";
+        is>>capacityOfWagons[i];
+        is.ignore();
+    }
+    
+    cout<<"Please enter the speed of the train: ";
+    is>>trainStation;
+    is.ignore();
+}
+
+void Train::addTrainStation(const Station& s)
+{
+    if(currentTrainStation == numberOfTrainStation)
+    {
         Resize();
     }
-    stations[currentStation] = s;
-    ++currentStation;
+    trainStation[currentTrainStation] = s;
+    ++currentTrainStation;
 }
-void Train::removeStation(const Station& s){
-    for(int i = 0; i < currentStation; ++i){
-        if(stations[i] == s){
-            for(int j = i; j < currentStation-1; ++j){
-                stations[j] = stations[j+1];
+
+void Train::removeTrainStation(const Station& s)
+{
+    for(int i = 0; i < currentTrainStation; ++i)
+    {
+        if(trainStation[i] == s)
+        {
+            for(int j = i; j < currentTrainStation-1; ++j)
+            {
+                trainStation[j] = trainStation[j+1];
             }
             break;
         }
     }
 }
-int Train::getCurrentStation()const{
-    return currentStation;
-}
-int Train::getSpeed()const{
-    return speed;
-}
-void Train::setCapacityOfWagons(int numberOfWagons, const int* capacityOfWagons){
+
+void Train::setCapacityOfWagons(int numberOfWagons, const int* capacityOfWagons)
+{
         this->capacityOfWagons = new int[numberOfWagons];
         for(int i = 0; i < numberOfWagons; i++){
             this->capacityOfWagons[i] = capacityOfWagons[i];
         }
 }
-const Station* Train::getStations()const{
-    return this->stations;
+
+int Train::getTrainSpeed()const
+{
+    return trainSpeed;
 }
-Train *Train::clone() const {
-    return new Train(*this);
+
+int Train::getCurrentTrainStation()const
+{
+    return currentTrainStation;
+}
+
+const Station* Train::getListOfTrainStations()const
+{
+    return this->trainStation;
 }
