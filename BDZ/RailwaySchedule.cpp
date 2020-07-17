@@ -2,70 +2,85 @@
 #include<iostream>
 #include<cstring>
 #include<cmath>
-using namespace std;
 
 void RailwaySchedule::Copy(const RailwaySchedule& other){
     //SCHEDULE
     currentLine = other.currentLine;
     numberOfLines = other.numberOfLines;
     schedules = new Railwayline[numberOfLines];
-    for(int i = 0; i < currentLine; ++i){
+    for(int i = 0; i < currentLine; ++i)
+    {
         schedules[i] = other.schedules[i];
     }
+    
     //TRIANS
     currentTrain = other.currentTrain;
     numberOfTrains = other.numberOfTrains;
     listOfTrains = new Train*[numberOfTrains];
-    for(int i = 0; i < currentTrain; ++i){
+    for(int i = 0; i < currentTrain; ++i)
+    {
         listOfTrains[i] = other.listOfTrains[i]->clone();
     }
+    
     //STATIONS
     currentStation = other.currentStation;
     numberOfStations = other.numberOfStations;
     listOfStations = new Station[numberOfStations];
-    for(int i = 0; i < currentStation; ++i){
+    for(int i = 0; i < currentStation; ++i)
+    {
         listOfStations[i] = other.listOfStations[i];
     }
 }
 void RailwaySchedule::Erase(){
     delete[] schedules;
     delete[] listOfStations;
-    for(int i = 0; i < currentTrain; ++i){
+    for(int i = 0; i < currentTrain; ++i)
+    {
         delete listOfTrains[i];
     }
     delete[] listOfTrains;
 }
 
-void RailwaySchedule::resizeL(){
+void RailwaySchedule::resizeL()
+{
     Railwayline* temp = schedules;
     numberOfLines *= 2;
     schedules = new Railwayline[numberOfLines];
-    for(int i=0; i<currentLine; ++i){
+    for(int i=0; i<currentLine; ++i)
+    {
         schedules[i] = temp[i];
     }
     delete[] temp;
 }
-void RailwaySchedule::resizeT(){
+
+void RailwaySchedule::resizeT()
+{
     Train** temp = listOfTrains;
     numberOfTrains *= 2;
     listOfTrains = new Train*[numberOfTrains];
-    for(int i=0; i<currentTrain; ++i){
+    for(int i=0; i<currentTrain; ++i)
+    {
         listOfTrains[i] = temp[i]->clone();
     }
     delete[] temp;
 }
+
 void RailwaySchedule::resizeS(){
     Station* temp = listOfStations;
     numberOfStations *= 2;
     listOfStations = new Station[numberOfStations];
-    for(int i=0; i<currentStation; ++i){
+    for(int i=0; i<currentStation; ++i)
+    {
         listOfStations[i] = temp[i];
     }
     delete[] temp;
 }
+
 void RailwaySchedule::sortSchedule(){
-    for(int i = 0; i < currentLine - 1; ++i){
-        for(int j = i + 1; j < currentLine; ++j){
+    for(int i = 0; i < currentLine - 1; ++i)
+    {
+        for(int j = i + 1; j < currentLine; ++j)
+        {
             if(schedules[i].getDepartTime() > schedules[j].getDepartTime())
             {
                 Railwayline temp = schedules[i];
@@ -81,25 +96,34 @@ RailwaySchedule::RailwaySchedule(): numberOfLines(1), currentLine(0),numberOfTra
     listOfTrains = new Train*[numberOfTrains];
     listOfStations = new Station[numberOfStations];
 }
-RailwaySchedule::RailwaySchedule(const RailwaySchedule& other){
+
+RailwaySchedule::RailwaySchedule(const RailwaySchedule& other)
+{
     Copy(other);
 }
-RailwaySchedule& RailwaySchedule::operator=(const RailwaySchedule& other){
-    if(this != & other){
+
+RailwaySchedule& RailwaySchedule::operator=(const RailwaySchedule& other)
+{
+    if(this != & other)
+    {
         Erase();
         Copy(other);
     }
     return *this;
 }
-RailwaySchedule::~RailwaySchedule(){
+
+RailwaySchedule::~RailwaySchedule()
+{
     Erase();
 }
 
-void RailwaySchedule::addLine(const Train& r, double departTime){
-
+void RailwaySchedule::addLine(const Train& r, double departTime)
+{
     const Station* listOfStation = r.getStations();
-    for(int i = 0; i < r.getCurrentStation() - 1; ++i){
-        for(int j = i + 1; j < r.getCurrentStation(); ++j){
+    for(int i = 0; i < r.getCurrentStation() - 1; ++i)
+    {
+        for(int j = i + 1; j < r.getCurrentStation(); ++j)
+        {
             double pointA = listOfStation[i].getX() - listOfStation[i].getY();
             double pointB = listOfStation[j].getX() - listOfStation[j].getY();
             double trainSpeed = r.getSpeed();
@@ -107,7 +131,8 @@ void RailwaySchedule::addLine(const Train& r, double departTime){
             arriveTime += departTime;
             Railwayline line(listOfStation[i].getNameOfStation(), listOfStation[j].getNameOfStation(),departTime, arriveTime);
             line.setTrainPointer(r);
-            if(currentLine == numberOfLines){
+            if(currentLine == numberOfLines)
+            {
                 resizeL();
             }
             schedules[currentLine] = line;
@@ -116,38 +141,46 @@ void RailwaySchedule::addLine(const Train& r, double departTime){
     }
     sortSchedule();
 }
-void RailwaySchedule::createTrain(){
+
+void RailwaySchedule::createTrain()
+{
     int type = - 1;
-    cout<<"Types of trains:"<<endl;
-    cout<<"    (1) Quick train"<<endl;
-    cout<<"    (2) Direct train"<<endl;
-    cout<<"    (3) Express train"<<endl;
-    cout<<"Please choose type of train: ";
-    while(type < 1 || type > 3){
+    std::cout<<"Types of trains:"<<std::endl;
+    std::cout<<"    (1) Quick train"<<std::endl;
+    std::cout<<"    (2) Direct train"<<std::endl;
+    std::cout<<"    (3) Express train"<<std::endl;
+    std::cout<<"Please choose type of train: ";
+    while(type < 1 || type > 3)
+    {
         cin>>type;
-        if(type == 1){
-            cout<<"    Quick train:"<<endl;
+        if(type == 1)
+        {
+            std::cout<<"    Quick train:"<<std::endl;
             QuickTrain T;
             cin>>T;
-            if(currentTrain == numberOfTrains){
+            if(currentTrain == numberOfTrains)
+            {
                 resizeT();
             }
             listOfTrains[currentTrain] = T.clone();
             ++currentTrain;
-            cout<<"The train was added!"<<endl;
+            std::cout<<"The train was added!"<<std::endl;
         }
-        else if(type == 2){
-            cout<<"    Direct train:"<<endl;
+        else if(type == 2)
+        {
+            std::cout<<"    Direct train:"<<std::endl;
             DirectTrain T;
             cin>>T;
-            if(currentTrain == numberOfTrains){
+            if(currentTrain == numberOfTrains)
+            {
                 resizeT();
             }
             listOfTrains[currentTrain] = T.clone();
             ++currentTrain;
-            cout<<"The train was added!"<<endl;
+            std::cout<<"The train was added!"<<std::endl;
         }
-        else if(type == 3){
+        else if(type == 3)
+        {
             cout<<"    Express train:"<<endl;
             Express T;
             cin>>T;
@@ -156,117 +189,146 @@ void RailwaySchedule::createTrain(){
             }
             listOfTrains[currentTrain] = T.clone();
             ++currentTrain;
-            cout<<"The train was added!"<<endl;
+            std::cout<<"The train was added!"<<std::endl;
         }
-        else{
-            cout<<"Incorrect choose, please try again: " ;
+        else
+        {
+            std::cout<<"Incorrect choose, please try again: " ;
         }
     }
 
     /*----------------------------------------------*/
-    cout<<"Please choose departing time of the train: ";
+    std::cout<<"Please choose departing time of the train: ";
     double dTime = -1;
-    while(dTime < 0.0){
+    while(dTime < 0.0)
+    {
         cin>>dTime;
-        if(dTime < 0){
-            cout<<"Incorrect choose, please try again: ";
+        if(dTime < 0)
+        {
+            std::cout<<"Incorrect choose, please try again: ";
         }
     }
+    
     /*----------------------------------------------*/
-    cout<<endl<<"New options:"<<endl;
-    cout<<"    (0) Exit"<<endl;
-    cout<<"    (1) Add stop"<<endl;
+    std::cout<<std::endl<<"New options:"<<std::endl;
+    std::cout<<"    (0) Exit"<<std::endl;
+    std::cout<<"    (1) Add stop"<<std::endl;
     int cm = -1;
-    cout<<"Your choose: ";
-    while(cm != 0 && cm != 1){
+    std::cout<<"Your choose: ";
+    while(cm != 0 && cm != 1)
+    {
         cin>>cm;
-        if(cm != 1 && cm != 0){
-            cout<<"Incorrect choose, please try again: ";
+        if(cm != 1 && cm != 0)
+        {
+            std::cout<<"Incorrect choose, please try again: ";
         }
     }
     /*----------------------------------------------*/
-    if(cm == 0){
+    if(cm == 0)
+    {
         return;
     }
-    if(currentStation != 0 && cm == 1){
-        cout<<"List of all stations(stops): "<<endl;
-        for(int i = 0; i <  currentStation; ++i){
-            cout<<"    ["<<i + 1<<"]: "<<listOfStations[i].getNameOfStation()<<endl;
+    if(currentStation != 0 && cm == 1)
+    {
+        std::cout<<"List of all stations(stops): "<<std::endl;
+        for(int i = 0; i <  currentStation; ++i)
+        {
+            std::cout<<"    ["<<i + 1<<"]: "<<listOfStations[i].getNameOfStation()<<std::endl;
         }
-        cout<<"For exit enter 0"<<endl;
-        cout<<"Please choose which stop to add: ";
+        std::cout<<"For exit enter 0"<<std::endl;
+        std::cout<<"Please choose which stop to add: ";
 
         int index = -1;
-        while(index != 0){
+        while(index != 0)
+        {
             cin>>index;
-            if(index- 1 >= 0 && index -1 < currentStation){
+            if(index- 1 >= 0 && index -1 < currentStation)
+            {
                 listOfTrains[currentTrain - 1]->addStation(listOfStations[index - 1]);
                 this->addLine(*(listOfTrains[currentTrain - 1]), dTime);
-                cout<<"The stop was added!"<<endl;
+                std::cout<<"The stop was added!"<<std::endl;
             }
-            else if(index != 0 && index != 1){
-                cout<<"Incorrect choose, please try again: ";
+            else if(index != 0 && index != 1)
+            {
+                std::cout<<"Incorrect choose, please try again: ";
             }
         }
     }
-    else{
-        cout<<"There is not available stops!"<<endl;
+    else
+    {
+        std::cout<<"There is not available stops!"<<std::endl;
     }
 }
-void RailwaySchedule::removeTrain(){
-    if(currentTrain == 0){
-        cout<<"Empty"<<endl;
+void RailwaySchedule::removeTrain()
+{
+    if(currentTrain == 0)
+    {
+        std::cout<<"Empty"<<std::endl;
         return;
     }
-    cout<<"List of all trains:"<<endl;
-    for(int i = 0; i <  currentTrain; ++i){
-    cout<<"    ["<<i + 1<<"]:"<<endl;
-    cout<<*(listOfTrains[i]);
+    std::cout<<"List of all trains:"<<std::endl;
+    for(int i = 0; i <  currentTrain; ++i)
+    {
+    std::cout<<"    ["<<i + 1<<"]:"<<std::endl;
+    std::cout<<*(listOfTrains[i]);
     }
-    cout<<"Please choose witch train to remove: ";
+    std::cout<<"Please choose witch train to remove: ";
     int index = -1;
-    while(!(index- 1 >= 0 && index -1 < currentTrain)){
+    while(!(index- 1 >= 0 && index -1 < currentTrain))
+    {
         cin>>index;
-        if(index- 1 >= 0 && index -1 < currentTrain){
-            for(int i = 0; i < currentTrain; ++i){
-                if(i == index - 1){
-                    for(int j = i; j < currentTrain-1; ++j){
+        if(index- 1 >= 0 && index -1 < currentTrain)
+        {
+            for(int i = 0; i < currentTrain; ++i)
+            {
+                if(i == index - 1)
+                {
+                    for(int j = i; j < currentTrain-1; ++j)
+                    {
                         listOfTrains[j] = listOfTrains[j+1];
                     }
                 --currentTrain;
-                cout<<"The train was removed!"<<endl;
+                std::cout<<"The train was removed!"<<std::endl;
                 return;
                 }
             }
         }
-        else{
-            cout<<"Incorrect choose, please try again: ";
+        else
+        {
+            std::cout<<"Incorrect choose, please try again: ";
         }
     }
 }
-void RailwaySchedule::createStation(){
-    cout<<"    Station:"<<endl;
+void RailwaySchedule::createStation()
+{
+    cout<<"    Station:"<<std::endl;
     Station S;
     cin>>S;
-    if(currentStation == numberOfStations){
+    if(currentStation == numberOfStations)
+    {
         resizeS();
     }
     listOfStations[currentStation] = S;
     ++currentStation;
-    cout<<"The station was added!"<<endl;
+    std::cout<<"The station was added!"<<std::endl;
 }
-void RailwaySchedule::removeStation(){
-    if(currentStation == 0){
-        cout<<"Empty"<<endl;
+void RailwaySchedule::removeStation()
+{
+    if(currentStation == 0)
+    {
+        std::cout<<"Empty"<<std::endl;
         return;
     }
-    cout<<"List of all stations:"<<endl;
-    for(int i = 0; i <  currentStation; ++i){
-    cout<<"    ["<<i + 1<<"]: "<<listOfStations->getNameOfStation()<<endl;
+    
+    std::cout<<"List of all stations:"<<std::endl;
+    for(int i = 0; i <  currentStation; ++i)
+    {
+    std::cout<<"    ["<<i + 1<<"]: "<<listOfStations->getNameOfStation()<<std::endl;
     }
-    cout<<"Please choose witch Station to remove: ";
+    std::cout<<"Please choose witch Station to remove: ";
     int index = -1;
-    while(!(index- 1 >= 0 && index -1 < currentStation)){
+    while(!(index- 1 >= 0 && index -1 < currentStation))
+    {
         cin>>index;
         if(index- 1 >= 0 && index -1 < currentStation){
             for(int i = 0; i < currentStation; ++i){

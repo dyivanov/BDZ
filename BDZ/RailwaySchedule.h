@@ -2,11 +2,12 @@
 #define RAILWAYSCHEDULE_H
 #include "QuickTrain.h"
 #include "DirectTrain.h"
-#include "Express.h"
+#include "ExpressTrain.h"
 #include "RailwayLine.h"
-
 #include<cstring>
-class RailwaySchedule{
+
+class RailwaySchedule
+{
 private:
     int numberOfLines;
     int currentLine;
@@ -28,22 +29,24 @@ private:
     void sortSchedule();
 
     Station* findStationByName(const char* nameOfStation);
+    
 public:
     RailwaySchedule();
     RailwaySchedule(const RailwaySchedule& r);
     RailwaySchedule& operator =(const RailwaySchedule& r);
     ~RailwaySchedule();
 
-
-    void addLine(const Train& r, double departTime);
-    void createTrain();
+    void addLine(const Train& r, double trainDepartTime);
+    void removeLine(Railwayline& r);
+    
+    void addTrain();
     void removeTrain();
-    void createStation();
+    
+    void addStation();
     void removeStation();
 
-    void removeLine(Railwayline& r);
-    void PrintSchedule() const;
-    void PrintScheduleAfter() const;
+    void printScheduleInformation() const;
+    void printScheduleAfter() const;
     void printListOfTrains() const;
     void printListOfStations()const;
     void showLinesAfter(double time) const;
