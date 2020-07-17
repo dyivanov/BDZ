@@ -1,80 +1,116 @@
 #include "RailwayLine.h"
 #include<iostream>
 #include<cstring>
-using namespace std;
 
-void Railwayline::Copy(const Railwayline& r){
-    this->currentStop = new char[strlen(r.currentStop) + 1];
-    strcpy(this->currentStop, r.currentStop);
-    this->lastStop = new char[strlen(r.lastStop) + 1];
-    strcpy(this->lastStop, r.lastStop);
+void Railwayline::Copy(const Railwayline& r)
+{
+    this->currentTrainStop = new char[strlen(r.currentTrainStop) + 1];
+    strcpy(this->currentTrainStop, r.currentTrainStop);
+    
+    this->lastTrainStop = new char[strlen(r.lastTrainStop) + 1];
+    strcpy(this->lastTrainStop, r.lastTrainStop);
+    
     train = r.train;
-    this->arriveTime = r.arriveTime;
-    this->departTime = r.departTime;
-}
-void Railwayline::Erase(){
-    delete[] currentStop;
-    delete[] lastStop;
+    
+    this->trainArriveTime = r.trainArriveTime;
+    
+    this->trainDepartTime = r.trainDepartTime;
 }
 
-Railwayline::Railwayline(){
-    currentStop = nullptr;
-    lastStop = nullptr;
+void Railwayline::Erase()
+{
+    delete[] currentTrainStop;
+    delete[] lastTrainStop;
+}
+
+Railwayline::Railwayline()
+{
+    currentTrainStop = nullptr;
+    lastTrainStop = nullptr;
     train = nullptr;
-    departTime = 0.0;
-    arriveTime = 0.0;
+    trainDepartTime = 0.0;
+    trainArriveTime = 0.0;
 }
 
-Railwayline::Railwayline(char* currentStop, char* lastStop, double departTime, double arriveTime){
-    this->currentStop = new char[strlen(currentStop) + 1];
-    strcpy(this->currentStop, currentStop);
-    this->lastStop = new char[strlen(lastStop) + 1];
-    strcpy(this->lastStop, lastStop);
-    this->departTime = departTime;
-    this->arriveTime = arriveTime;
+Railwayline::Railwayline(char* currentTrainStop, char* lastTrainStop, double trainDepartTime, double trainArriveTime)
+{
+    this->currentTrainStop = new char[strlen(currentTrainStop) + 1];
+    strcpy(this->currentTrainStop, currentTrainStop);
+    
+    this->lastTrainStop = new char[strlen(lastTrainStop) + 1];
+    strcpy(this->lastTrainStop, lastTrainStop);
+    
+    this->trainDepartTime = trainDepartTime;
+    
+    this->trainArriveTime = trainArriveTime;
 }
-Railwayline::Railwayline(const Railwayline& r){
+
+Railwayline::Railwayline(const Railwayline& r)
+{
     Copy(r);
 }
-Railwayline& Railwayline::operator =(const Railwayline& r){
-        if(this != &r){
+
+Railwayline& Railwayline::operator =(const Railwayline& r)
+{
+    if(this != &r)
+    {
         Erase();
         Copy(r);
     }
+    
     return *this;
 }
-bool Railwayline::operator==( Railwayline& r){
-    if(!strcmp(this->currentStop,r.currentStop) &&
-       !strcmp(this->lastStop,r.lastStop) &&
-       this->arriveTime == r.arriveTime &&
-       this->departTime == r.departTime){
+
+bool Railwayline::operator==( Railwayline& r)
+{
+    if( (!strcmp(this->currentTrainStop, r.currentTrainStop) )&&
+        (!strcmp(this->lastTrainStop, r.lastTrainStop)) &&
+        (this->trainArriveTime == r.trainArriveTime) &&
+        (this->trainDepartTime == r.trainDepartTime))
+    {
         return true;
-       }
+    }
     return false;
 }
-Railwayline::~Railwayline(){
+
+Railwayline::~Railwayline()
+{
     Erase();
 }
-void Railwayline::printLine()const{
-    cout<<"Current stop: "<<currentStop<<" -> "<<"Last stop: "<<lastStop<<endl;
-    cout<<"     Depart time:"<<this->departTime<<endl;
-    cout<<"     Arrive time:"<<this->arriveTime<<endl;
-}
-void Railwayline::setTrainPointer(const Train& t){
+
+void Railwayline::setTrainPointer(const Train& t)
+{
     train = t.clone();
 }
-Train* Railwayline::getTrainPointer()const{
+
+Train* Railwayline::getTrainPointer() const
+{
     return train;
 }
-double Railwayline::getDepartTime()const{
-    return departTime;
+
+double Railwayline::getTrainDepartTime() const 
+{
+    return trainDepartTime;
 }
-double Railwayline::getArriveTime()const{
-    return arriveTime;
+
+double Railwayline::getTrainArriveTime() const
+{
+    return trainArriveTime;
 }
-const char* Railwayline::getCurrentStop()const{
-    return currentStop;
+
+const char* Railwayline::getTrainCurrentStop() const
+{
+    return currentTrainStop;
 }
-const char* Railwayline::getLastStop()const{
-    return lastStop;
+
+const char* Railwayline::getTrainLastStop() const
+{
+    return lastTrainStop;
+}
+
+void Railwayline::printTrainInformation() const
+{
+    std::cout<<"Current stop: "<<currentTrainStop<<" -> "<<"Last stop: "<<lastTrainStop<<endl;
+    std::cout<<"     Depart time:"<<this->trainDepartTime<<std::endl;
+    std::cout<<"     Arrive time:"<<this->trainArriveTime<<std::endl;
 }
