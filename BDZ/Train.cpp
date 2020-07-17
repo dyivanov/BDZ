@@ -84,7 +84,7 @@ Train::~Train()
     Erase();
 }
 
-void Train::Print(std::ostream &os)const
+void Train::printTrainInformation(std::ostream &os)const
 {
     os<<"Number of wagons: "<<numberOfWagons<<std::endl;
     
@@ -107,7 +107,7 @@ void Train::Print(std::ostream &os)const
     }
 }
 
-void Train::Read(std::istream &is)
+void Train::readTrainInformation(std::istream &is)
 {
     std::cout<<"Please enter number of wagons: ";
     is>>numberOfWagons;
@@ -122,7 +122,7 @@ void Train::Read(std::istream &is)
         is.ignore();
     }
     
-    cout<<"Please enter the speed of the train: ";
+    std::cout<<"Please enter the speed of the train: ";
     is>>trainStation;
     is.ignore();
 }
