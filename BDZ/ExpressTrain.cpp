@@ -1,4 +1,4 @@
-#include "ExpressTrain.h.h"
+#include "ExpressTrain.h"
 #include<iostream>
 
 ExpressTrain::ExpressTrain():Train(), QuickTrain(), DirectTrain(){}
