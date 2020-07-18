@@ -11,8 +11,8 @@ TEST_CASE("Create Empty Train")
 {
 	Train train();
 	CHECK(train.getTrainSpeed() == '0');
-  CHECK(train.getCurrentTrainStation() == '0');
-  CHECK(train.getListOfTrainStations() == "nullptr");
+  	CHECK(train.getCurrentTrainStation() == '0');
+  	CHECK(train.getListOfTrainStations() == "nullptr");
 }
 
 TEST_CASE("Create Train with speed - 120")
@@ -24,20 +24,20 @@ TEST_CASE("Create Train with speed - 120")
 TEST_CASE("Test for functions - addTrainStation()")
 {
 	Train train();
-  Station Sofia();
+	Station Sofia();
 	CHECK(train.getCurrentTrainStation() == '0');
-  train.addTrainStation(Sofia);
-  CHECK(train.getCurrentTrainStation() == '1');
+  	train.addTrainStation(Sofia);
+  	CHECK(train.getCurrentTrainStation() == '1');
 }
 
 TEST_CASE("Test for functions - removeTrainStation()")
 {
 	Train train();
-  Station Sofia();
+  	Station Sofia();
 	CHECK(train.getCurrentTrainStation() == '0');
-  train.addTrainStation(Sofia);
-  CHECK(train.getCurrentTrainStation() == '1');
-  train.removeTrainStation(Sofia);
-  CHECK(train.getCurrentTrainStation() == '0');
+  	train.addTrainStation(Sofia);
+  	CHECK(train.getCurrentTrainStation() == '1');
+  	train.removeTrainStation(Sofia);
+  	CHECK(train.getCurrentTrainStation() == '0');
 }
 #endif // TRAIN_H
