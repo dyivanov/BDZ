@@ -43,8 +43,10 @@ Station::Station():nameOfStation(nullptr), trains(nullptr), stationPriority(1), 
 
 Station::Station(const char* nameOfStation, int stationPriority, double x, double y)
 {
+    assert(nameOfStation != nullptr && "Name of the statios requires non-null argument");
     this->nameOfStation = new char[strlen(nameOfStation) + 1];
     strcpy(this->nameOfStation, nameOfStation);
+    assert(stationPriority > 0 && "Station priority requires value > 0");
     this->setStationPriority(stationPriority);
     this->x = x;
     this->y = y;
