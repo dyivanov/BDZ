@@ -31,7 +31,9 @@ void RailwaySchedule::Copy(const RailwaySchedule& other){
         listOfStations[i] = other.listOfStations[i];
     }
 }
-void RailwaySchedule::Erase(){
+
+void RailwaySchedule::Erase()
+{
     delete[] schedules;
     delete[] listOfStations;
     for(int i = 0; i < currentTrain; ++i)
@@ -65,7 +67,8 @@ void RailwaySchedule::resizeT()
     delete[] temp;
 }
 
-void RailwaySchedule::resizeS(){
+void RailwaySchedule::resizeS()
+{
     Station* temp = listOfStations;
     numberOfStations *= 2;
     listOfStations = new Station[numberOfStations];
@@ -76,7 +79,8 @@ void RailwaySchedule::resizeS(){
     delete[] temp;
 }
 
-void RailwaySchedule::sortSchedule(){
+void RailwaySchedule::sortSchedule()
+{
     for(int i = 0; i < currentLine - 1; ++i)
     {
         for(int j = i + 1; j < currentLine; ++j)
@@ -91,7 +95,8 @@ void RailwaySchedule::sortSchedule(){
     }
 }
 
-RailwaySchedule::RailwaySchedule(): numberOfLines(1), currentLine(0),numberOfTrains(1), currentTrain(0), numberOfStations(1), currentStation(0), schedules(nullptr),listOfStations(nullptr), listOfTrains(nullptr){
+RailwaySchedule::RailwaySchedule(): numberOfLines(1), currentLine(0),numberOfTrains(1), currentTrain(0), numberOfStations(1), currentStation(0), schedules(nullptr),listOfStations(nullptr), listOfTrains(nullptr)
+{
     schedules = new Railwayline[numberOfLines];
     listOfTrains = new Train*[numberOfTrains];
     listOfStations = new Station[numberOfStations];
@@ -389,45 +394,63 @@ void RailwaySchedule::PrintScheduleAfter()const{
         }
     }
 }
-void RailwaySchedule::printListOfStations()const{
-    if(currentStation == 0){
-        cout<<"There is not available stations!"<<endl;
+
+void RailwaySchedule::printListOfStations() const
+{
+    if(currentStation == 0)
+    {
+        std::cout<<"There is not available stations!"<<std::endl;
         return;
     }
-    for(int i = 0; i < currentStation; ++i){
-        cout<<i + 1<<": "<<listOfStations[i]<<endl;
+    for(int i = 0; i < currentStation; ++i)
+    {
+        std::cout<<i + 1<<": "<<listOfStations[i]<<std::endl;
     }
 }
-void RailwaySchedule::printListOfTrains()const{
-    if(currentTrain == 0){
-        cout<<"There is not available trains!"<<endl;
+
+void RailwaySchedule::printListOfTrains() const
+{
+    if(currentTrain == 0)
+    {
+        std::cout<<"There is not available trains!"<<std::endl;
         return;
     }
-    for(int i = 0; i < currentTrain; ++i){
-        cout<<i + 1<<": "<<endl;
-        cout<<"    ["<<i+1<<"]"<<*(listOfTrains[i]);
+    for(int i = 0; i < currentTrain; ++i)
+    {
+        std::cout<<i + 1<<": "<<std::endl;
+        std::cout<<"    ["<<i+1<<"]"<<*(listOfTrains[i]);
     }
 }
-void RailwaySchedule::showLinesAfter(double time)const{
-    for(int i = 0; i < currentLine; ++i){
-        if(schedules[i].getArriveTime() > time){
+
+void RailwaySchedule::showLinesAfter(double time) const
+{
+    for(int i = 0; i < currentLine; ++i)
+    {
+        if(schedules[i].getArriveTime() > time)
+        {
             schedules[i].printLine();
         }
     }
 }
-void RailwaySchedule::simulateMove(){
+
+void RailwaySchedule::simulateMove()
+{
     cout<<"Please choose current time: ";
     int time = -1;
-    while (time < 0){
+    while (time < 0)
+    {
         cin>>time;
-        if(time < 0){
-            cout<<"Incorrect time, please try again!"<<endl;
-            cout<<"Your choose: ";
+        if(time < 0)
+        {
+            std::cout<<"Incorrect time, please try again!"<<std::endl;
+            std::cout<<"Your choose: ";
         }
     }
     int n = currentLine;
-    for(int i = 0; i < n; ++i){
-        if(time >= this->schedules[i].getArriveTime()){
+    for(int i = 0; i < n; ++i)
+    {
+        if(time >= this->schedules[i].getArriveTime())
+        {
             this->findStationByName(schedules[i].getCurrentStop())->removeTrain(*schedules[i].getTrainPointer());
             this->findStationByName(schedules[i].getLastStop())->addTrain(*schedules[i].getTrainPointer());
             schedules[i].getTrainPointer()->removeStation(*(findStationByName(schedules[i].getCurrentStop())));
@@ -435,12 +458,18 @@ void RailwaySchedule::simulateMove(){
         }
     }
 }
-double RailwaySchedule::calculateArriveTime(double pointA, double pointB, int trainSpeed){
+
+double RailwaySchedule::calculateArriveTime(double pointA, double pointB, int trainSpeed)
+{
     return sqrt(pow(pointA, 2) + pow(pointB, 2)) / (double)trainSpeed;
 }
-Station* RailwaySchedule::findStationByName(const char* nameOfStation){
-    for(int i = 0; i < currentStation ; ++i){
-        if(strcmp(listOfStations[i].getNameOfStation(), nameOfStation) == 0){
+
+Station* RailwaySchedule::findStationByName(const char* nameOfStation)
+{
+    for(int i = 0; i < currentStation ; ++i)
+    {
+        if(strcmp(listOfStations[i].getNameOfStation(), nameOfStation) == 0)
+        {
             return &(listOfStations[i]);
         }
     }

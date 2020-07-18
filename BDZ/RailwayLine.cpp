@@ -1,6 +1,7 @@
 #include "RailwayLine.h"
 #include<iostream>
 #include<cstring>
+#include <cassert>
 
 void Railwayline::Copy(const Railwayline& r)
 {
@@ -34,14 +35,18 @@ Railwayline::Railwayline()
 
 Railwayline::Railwayline(char* currentTrainStop, char* lastTrainStop, double trainDepartTime, double trainArriveTime)
 {
+    assert(currentTrainStop != nullptr && "Current train stop name is nullptr");
     this->currentTrainStop = new char[strlen(currentTrainStop) + 1];
     strcpy(this->currentTrainStop, currentTrainStop);
     
+    assert(lastTrainStop != nullptr && "Last train stop name is nullptr");
     this->lastTrainStop = new char[strlen(lastTrainStop) + 1];
     strcpy(this->lastTrainStop, lastTrainStop);
     
+    assert(trainDepartTime >= 0 && "Train depart time should be possitive number!");
     this->trainDepartTime = trainDepartTime;
     
+    assert(trainArriveTime >= 0 && "Train arrive time should be possitive number!");
     this->trainArriveTime = trainArriveTime;
 }
 

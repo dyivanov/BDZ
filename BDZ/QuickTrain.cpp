@@ -1,6 +1,7 @@
 #include "QuickTrain.h"
 #include "Train.h"
 #include<iostream>
+#include <cassert>
 #define Index_MIN 1
 #define Index_MAX 3
 
@@ -41,14 +42,8 @@ void QuickTrain::readTrainInformation(std::istream &is)
 
 void QuickTrain::setFasterBy(double index)
 {
-    if(Index_MIN <= index && index <= Index_MAX)
-    {
-        fasterBy = getTrainSpeed() * index;
-    }
-    else
-    {
-        std::cout<<"Please enter sped index in [1,3]"<<std::endl;
-    }
+    assert((Index_MIN <= index && index <= Index_MAX) && "Sped index should be in [1,3]");
+    fasterBy = getTrainSpeed() * index;
 }
 
 double QuickTrain::getFasterBy()const
