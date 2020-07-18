@@ -2,6 +2,11 @@
 #include<iostream>
 #include<cstring>
 #include<cmath>
+#define QuickTrainType 1 
+#define DirectTrainType 2 
+#define ExpressTrainType 3 
+
+
 
 void RailwaySchedule::Copy(const RailwaySchedule& other){
     //SCHEDULE
@@ -155,10 +160,10 @@ void RailwaySchedule::createTrain()
     std::cout<<"    (2) Direct train"<<std::endl;
     std::cout<<"    (3) Express train"<<std::endl;
     std::cout<<"Please choose type of train: ";
-    while(type < 1 || type > 3)
+    while( (type < QuickTrainType) || (type > ExpressTrainType) )
     {
         cin>>type;
-        if(type == 1)
+        if(type == QuickTrainType)
         {
             std::cout<<"    Quick train:"<<std::endl;
             QuickTrain T;
@@ -171,7 +176,7 @@ void RailwaySchedule::createTrain()
             ++currentTrain;
             std::cout<<"The train was added!"<<std::endl;
         }
-        else if(type == 2)
+        else if(type == DirectTrainType)
         {
             std::cout<<"    Direct train:"<<std::endl;
             DirectTrain T;
@@ -184,7 +189,7 @@ void RailwaySchedule::createTrain()
             ++currentTrain;
             std::cout<<"The train was added!"<<std::endl;
         }
-        else if(type == 3)
+        else if(type == ExpressTrainType)
         {
             cout<<"    Express train:"<<endl;
             Express T;
