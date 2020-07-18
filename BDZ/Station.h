@@ -22,17 +22,17 @@ public:
     Station(const char* nameOfStation, int trainPriority, double x, double y);
     Station(const Station& s);
     Station& operator = (const Station& s);
-    bool operator ==(const Station& s);
+    bool operator == (const Station& s);
     friend std::ostream& operator<<(std::ostream& os, const Station& t);
     friend std::istream& operator>>(std::istream& is, Station& t);
     ~Station();
 
     void setTrainPriority(int trainPriority);
     
-    int getTrainPriority()const;
+    int getTrainPriority() const;
     char* getNameOfStation() const;
-    double getX()const;
-    double getY()const;
+    double getX() const;
+    double getY() const;
 
     void addTrain(Train& t);
     void removeTrain(const Train& t);

@@ -25,7 +25,7 @@ std::istream &operator>>(std::istream &is, ExpressTrain &e)
     return is;
 }
 
-void ExpressTrain::printTrainInformation(std::ostream &os)const
+void ExpressTrain::printTrainInformation(std::ostream &os) const
 {
     Train::printTrainInformation(os);
     os<<"Faster by: "<<getFasterBy()<<std::endl;

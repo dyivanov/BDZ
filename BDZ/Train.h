@@ -4,7 +4,8 @@
 #include "Station.h"
 
 class Station;
-class  Train{
+class  Train
+{
 private:
     int numberOfWagons;
     int* capacityOfWagons;
@@ -34,8 +35,8 @@ public:
     void removeTrainStation(const Station& s);
 
     void setCapacityOfWagons(int numberOfWagons, const int* capacityOfWagons);
-    int getTrainSpeed()const;
-    int getCurrentTrainStation()const;
+    int getTrainSpeed() const;
+    int getCurrentTrainStation() const;
     const Station* getListOfTrainStations()const;
 };
 #endif // TRAIN_H

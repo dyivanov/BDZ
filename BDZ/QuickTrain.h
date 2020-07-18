@@ -16,9 +16,8 @@ public:
     virtual Train* clone() const;
 
     void setFasterBy(double x);
-    double getFasterBy()const;
+    double getFasterBy() const;
     void printTrainInformation(std::ostream& os) const;
     void readTrainInformation(std::istream& is);
 };
 #endif // QUICKTRAIN_H
-
