@@ -18,7 +18,7 @@ public:
     void printTrainInformation(std::ostream& os) const;
     void readTrainInformation(std::istream& is);
 
-    int getTrainPriority()const;
+    int getTrainPriority() const;
     void addTrainStation(const Station& s);
 };
 #endif // DIRECTTRAIN_H
