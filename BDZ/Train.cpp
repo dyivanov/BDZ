@@ -1,5 +1,6 @@
 #include<iostream>
 #include "Train.h"
+#include <cassert>
 
 void Train::Copy(const Train& t)
 {
@@ -39,8 +40,10 @@ Train::Train():numberOfWagons(0), capacityOfWagons(nullptr), trainSpeed(0), curr
 
 Train::Train(int numberOfWagons,const int* capacityOfWagons, int trainSpeed)
 {
+    assert(numberOfWagons >= 0 && "Number of wagons should be positive number!");
     this->numberOfWagons = numberOfWagons;
     this->setCapacityOfWagons(numberOfWagons, capacityOfWagons);
+    assert(trainSpeed >= 0 && "Train speed should be positive number!");
     this->trainSpeed = trainSpeed;
     numberOfTrainStation = 1;
     currentTrainStation = 0;
