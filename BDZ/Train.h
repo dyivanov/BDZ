@@ -4,7 +4,8 @@
 #include "Station.h"
 
 class Station;
-class  Train{
+class  Train
+{
 private:
     int numberOfWagons;
     int* capacityOfWagons;
